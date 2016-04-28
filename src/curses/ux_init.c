@@ -56,11 +56,12 @@ static int getconfig(char *);
 static int geterrmode(char *);
 static int getcolor(char *);
 static int getbool(char *);
-
+#ifdef RESIZE_WINDOWS
 static void sigwinch_handler(int);
+#endif
 static void sigint_handler(int);
-static void redraw(void);
 
+static int ux_init_blorb(void);
 
 #define INFORMATION "\
 An interpreter for all Infocom and other Z-Machine games.\n\
@@ -148,7 +149,7 @@ void os_fatal (const char *s, ...)
 
 void os_process_arguments (int argc, char *argv[])
 {
-    int c, i;
+    int c;
 
     char *p = NULL;
     char *blorb_ext = NULL;
@@ -981,7 +982,6 @@ static int geterrmode(char *value)
 	return ERR_DEFAULT_REPORT_MODE;
 } /* geterrmode() */
 
-
 /*
  * sigwinch_handler
  *
@@ -989,7 +989,7 @@ static int geterrmode(char *value)
  * cleanly resize the window.
  *
  */
-
+#ifdef RESIZE_WINDOW
 static void sigwinch_handler(int sig)
 {
 /*
@@ -1001,6 +1001,7 @@ does nothing.
 */
 
 }
+#endif
 
 /*
  * sigint_handler
@@ -1016,11 +1017,6 @@ static void sigint_handler(int dummy)
     refresh(); endwin();
 
     exit(1);
-}
-
-void redraw(void)
-{
-	/* not implemented */
 }
 
 
@@ -1069,7 +1065,7 @@ void os_init_setup(void)
 
 }
 
-int ux_init_blorb(void)
+static int ux_init_blorb(void)
 {
     FILE *blorbfile;
 
@@ -1099,6 +1095,7 @@ int ux_init_blorb(void)
         }
 	return blorb_err;
     }
+    return bb_err_None;
 }
 
 #ifdef NO_STRRCHR

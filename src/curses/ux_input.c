@@ -58,6 +58,9 @@ extern bool is_terminator (zchar);
 extern void read_string (int, zchar *);
 extern int completion (const zchar *, zchar *);
 
+static int start_of_prev_word(int currpos, const zchar* buf);
+static int end_of_next_word(int currpos, const zchar* buf, int len);
+
 /*
  * unix_set_global_timeout
  *
@@ -678,6 +681,7 @@ int os_read_file_name (char *file_name, const char *default_name, int flag)
 zword os_read_mouse (void)
 {
 	/* INCOMPLETE */
+    return (zword)0;
 
 } /* os_read_mouse */
 
@@ -741,9 +745,8 @@ int start_of_prev_word(int currpos, const zchar* buf) {
  * returns new position
  */
 int end_of_next_word(int currpos, const zchar* buf, int len) {
-	int i, j;
+	int i;
 	for (i = currpos; i < len && buf[i] == ' '; i++) {}
-	j = i;
 	for (; i < len && buf[i] != ' '; i++) {}
 	return i;
 }

@@ -18,7 +18,7 @@ char *findchunk(char *data, char *string, int length)
 		if (strncmp((char*)mydata, string, 4) == 0)
 			return mydata+8;
 
-		mydata += ReadLong(mydata+4)+8;
+		mydata += ReadLong(((unsigned char *)mydata)+4)+8;
 
 		if ((mydata - data) >= length)
 			break;

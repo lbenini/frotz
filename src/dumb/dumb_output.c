@@ -149,7 +149,7 @@ void dumb_display_user_input(char *s)
 	dumb_row(cursor_row)[cursor_col++] = make_cell(0, *s++);
 }
 
-void dumb_discard_old_input(int num_chars)
+void dumb_discard_old_input(unsigned int num_chars)
 {
   /* Weird discard stuff.  Grep spec for 'pain in my butt'.  */
   /* The old characters should be on the screen just before the cursor.
